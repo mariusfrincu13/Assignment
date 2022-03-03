@@ -1,4 +1,5 @@
 <?php
+    //session
     session_start();
 
     $player1 = $_SESSION['player_1'];
