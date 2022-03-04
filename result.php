@@ -1,38 +1,106 @@
 <?php
     //session
     session_start();
+    include_once("connection.php");
 
     $player1 = $_SESSION['player_1'];
     $player2 = $_SESSION['player_2'];
     $id = $_SESSION["id_game"];
+    $playerTurn = $_POST['playerTurn'];
+
     $c00=0;$c01=0;$c02=0;$c10=0;$c11=0;$c12=0;$c20=0;$c21=0;$c22=0;
 
-    if(isset($_POST['c00'])){
-        $c00 = $_POST['c00'];
-    }
-    if(isset($_POST['c01'])){
-        $c01 = $_POST['c01'];
-    }
-    if(isset($_POST['c02'])){
-        $c02 = $_POST['c02'];
-    }
-    if(isset($_POST['c10'])){
-        $c10 = $_POST['c10'];
-    }
-    if(isset($_POST['c11'])){
-        $c11 = $_POST['c11'];
-    }
-    if(isset($_POST['c12'])){
-        $c12 = $_POST['c12'];
-    }
-    if(isset($_POST['c20'])){
-        $c20 = $_POST['c20'];
-    }
-    if(isset($_POST['c21'])){
-        $c21 = $_POST['c21'];
-    }
-    if(isset($_POST['c22'])){
-        $c22 = $_POST['c22'];
+    $query = "select * from game_structure where ID_game = '$id'";
+    $result = mysqli_query($con,$query);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    if($row == null){
+        if(isset($_POST['c00'])){
+            $c00 = $_POST['c00'];
+        }
+        if(isset($_POST['c01'])){
+            $c01 = $_POST['c01'];
+        }
+        if(isset($_POST['c02'])){
+            $c02 = $_POST['c02'];
+        }
+        if(isset($_POST['c10'])){
+            $c10 = $_POST['c10'];
+        }
+        if(isset($_POST['c11'])){
+            $c11 = $_POST['c11'];
+        }
+        if(isset($_POST['c12'])){
+            $c12 = $_POST['c12'];
+        }
+        if(isset($_POST['c20'])){
+            $c20 = $_POST['c20'];
+        }
+        if(isset($_POST['c21'])){
+            $c21 = $_POST['c21'];
+        }
+        if(isset($_POST['c22'])){
+            $c22 = $_POST['c22'];
+        }
+
+        $query_g = "insert into game_structure (ID_game,c00,c01,c02,c10,c11,c12,c20,c21,c22,playerTurn) values ('$id','$c00','$c01','$c02','$c10','$c11','$c12','$c20','$c21','$c22','$playerTurn')";
+        mysqli_query($con, $query_g);
+    }else if(sizeof($row) > 0){
+        if(isset($_POST['c00'])){
+            $c00 = $_POST['c00'];
+            $query_g = "update game_structure set c00='$c00' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c01'])){
+            $c01 = $_POST['c01'];
+            $query_g = "update game_structure set c01='$c01' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c02'])){
+            $c02 = $_POST['c02'];
+            $query_g = "update game_structure set c02='$c02' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c10'])){
+            $c10 = $_POST['c10'];
+            $query_g = "update game_structure set c10='$c10' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c11'])){
+            $c11 = $_POST['c11'];
+            $query_g = "update game_structure set c11='$c11' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c12'])){
+            $c12 = $_POST['c12'];
+            $query_g = "update game_structure set c12='$c12' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c20'])){
+            $c20 = $_POST['c20'];
+            $query_g = "update game_structure set c20='$c20' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c21'])){
+            $c21 = $_POST['c21'];
+            $query_g = "update game_structure set c21='$c21' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+        if(isset($_POST['c22'])){
+            $c22 = $_POST['c22'];
+            $query_g = "update game_structure set c22='$c22' where ID_game = '$id'";
+            mysqli_query($con, $query_g);
+        }
+
+        $query = "select * from game_structure where ID_game = '$id'";
+        $result = mysqli_query($con,$query);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+
+        $c00 = $row['c00']; $c01 = $row['c01']; $c02 = $row['c02'];
+        $c10 = $row['c10']; $c11 = $row['c11']; $c12 = $row['c12'];
+        $c20 = $row['c20']; $c21 = $row['c21']; $c22 = $row['c22'];
+
     }
 
     $winner = 0;
@@ -87,20 +155,11 @@
         }
     }
 
-    include_once("connection.php");
+
 
     if (isset($_POST['leave'])){
         $query = "update games set Status = 'unfinished' WHERE ID_game = '$id'";
         mysqli_query($con, $query);
-
-        $query = "select * from game_structure where ID_game = '$id'";
-        $result = mysqli_query($con,$query);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-        if(sizeof($row) == null){
-            $query_g = "insert into game_structure (ID_game,c00,c01,c02,c10,c11,c12,c20,c21,c22) values ('$id','$c00','$c01','$c02','$c10','$c11','$c12','$c20','$c21','$c22')";
-            mysqli_query($con, $query_g);
-        }
 
         header("Location: index.php");
     }
@@ -116,8 +175,6 @@
 
         mysqli_query($con, $query);
 
-        $query_g = "insert into game_structure (ID_game,c00,c01,c02,c10,c11,c12,c20,c21,c22) values ('$id','$c00','$c01','$c02','$c10','$c11','$c12','$c20','$c21','$c22')";
-        mysqli_query($con, $query_g);
     }
 
 ?>
