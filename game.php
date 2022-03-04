@@ -65,6 +65,7 @@
             $c00=$row['c00']; $c01=$row['c01']; $c02=$row['c02'];
             $c10=$row['c10']; $c11=$row['c11']; $c12=$row['c12'];
             $c20=$row['c20']; $c21=$row['c21']; $c22=$row['c22'];
+            $playerTurn=$row['playerTurn'];
         }
 
     }
@@ -154,6 +155,7 @@
                     <br>
 
                     <div class="text-center">
+                        <input type="hidden" name="playerTurn" id="playerTurn">
                         <input type="submit" class="btn btn-primary btn-sq-responsive" name="submit" value="SUBMIT">
                         <input type="submit" class="btn btn-primary btn-sq-responsive" name="leave" value="LEAVE">
                     </div>
@@ -169,6 +171,7 @@
         var cells = document.getElementsByClassName("b");
         var div1 = document.getElementById("div1");
         var div2 = document.getElementById("div2");
+        var pT = document.getElementById("playerTurn");
 
         var game = [
             [3, 4, 5],
@@ -181,12 +184,26 @@
             var c00 = '<?=$c00?>'; var c01 = '<?=$c01?>'; var c02 = '<?=$c02?>';
             var c10 = '<?=$c10?>'; var c11 = '<?=$c11?>'; var c12 = '<?=$c12?>';
             var c20 = '<?=$c20?>'; var c21 = '<?=$c21?>'; var c22 = '<?=$c22?>';
+            pT = '<?=$playerTurn?>';
 
             game = [
                 [c00, c01, c02],
                 [c10, c11, c12],
                 [c20, c21, c22]
             ];
+
+
+            if (pT == 1){
+                div1.setAttribute("class", "text-center");
+                div2.setAttribute("style", "width: 40%; background-color: #90EE90;");
+                div2.setAttribute("class", "badge text-wrap text-center");
+                div2.textContent = "Player 1 moves";
+            }else if (pT == 2){
+                div1.setAttribute("class", "text-center");
+                div2.setAttribute("style", "width: 40%; background-color: #ff5a36;");
+                div2.setAttribute("class", "badge text-wrap text-center");
+                div2.textContent = "Player 2 moves";
+            }
 
             var t=0;
             count=0;
@@ -205,13 +222,12 @@
                 }
             }
 
-
         <?php } ?>
 
         function colorButton(b){
             var id = b.id;
 
-            if (playerTurn === 1){
+            if (playerTurn == 1){
 
                 div1.setAttribute("class", "text-center");
                 div2.setAttribute("style", "width: 40%; background-color: #ff5a36;");
@@ -250,7 +266,8 @@
                 }
 
                 playerTurn = 2;
-            }else if (playerTurn === 2){
+                pT.value = playerTurn;
+            }else if (playerTurn == 2){
 
                 div1.setAttribute("class", "text-center");
                 div2.setAttribute("style", "width: 40%; background-color: #90EE90;");
@@ -289,6 +306,7 @@
                 }
 
                 playerTurn = 1;
+                pT.value = playerTurn;
             }
 
 
